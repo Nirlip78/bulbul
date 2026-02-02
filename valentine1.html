@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Be My Valentine 💖</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    display: grid;
+    place-items: center;
+    background: radial-gradient(circle at top, #fff0f6, #ffd6e8);
+    font-family: system-ui, sans-serif;
+    overflow: hidden;
+  }
+
+  .card {
+    background: #fffafc;
+    padding: 40px 34px;
+    border-radius: 26px;
+    width: min(520px, 92vw);
+    box-shadow: 0 30px 70px rgba(0,0,0,.15);
+    text-align: center;
+  }
+
+  h1 {
+    font-size: 36px;
+    color: #c9184a;
+    margin-bottom: 16px;
+  }
+
+  .art {
+    font-size: 56px;
+    margin-bottom: 10px;
+  }
+
+  .buttons {
+    position: relative;
+    height: 140px;
+    margin-top: 20px;
+  }
+
+  button {
+    padding: 16px 28px;
+    font-size: 17px;
+    font-weight: 700;
+    border-radius: 999px;
+    border: none;
+    cursor: pointer;
+  }
+
+  #yes {
+    background: #ff4d6d;
+    color: white;
+    position: absolute;
+    left: 20%;
+    top: 50%;
+    transform: translateY(-50%);
+    box-shadow: 0 12px 25px rgba(255,77,109,.35);
+  }
+
+  #no {
+    background: #f3f3f3;
+    color: #444;
+    position: absolute;
+    left: 60%;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  /* RESULT */
+  .result {
+    display: none;
+    margin-top: 20px;
+    animation: pop .4s ease;
+  }
+
+  .result h2 {
+    font-size: 42px;
+    color: #c9184a;
+    margin-bottom: 12px;
+  }
+
+  video {
+    width: 100%;
+    max-width: 360px;
+    border-radius: 18px;
+    box-shadow: 0 12px 30px rgba(0,0,0,.2);
+  }
+
+  @keyframes pop {
+    from { transform: scale(.9); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+
+  /* HEARTS */
+  .heart {
+    position: fixed;
+    bottom: -30px;
+    animation: floatUp linear forwards;
+    pointer-events: none;
+  }
+
+  @keyframes floatUp {
+    to {
+      transform: translateY(-120vh) scale(1.4);
+      opacity: 0;
+    }
+  }
+</style>
+</head>
+
+<body>
+
+<div class="card">
+  <div class="art">🧸💖🌸</div>
+  <h1>Bulbul Will you be my Valentine?</h1>
+
+  <div class="buttons" id="zone">
+    <button id="yes">Yes 💘</button>
+    <button id="no">No 🙈</button>
+  </div>
+
+  <!-- RESULT -->
+  <div class="result" id="result">
+    <h2>YAYYYY 💕🎉</h2>
+
+    <!-- EXCITEMENT VIDEO -->
+    <video autoplay muted loop playsinline>
+      <source src="https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.mp4" type="video/mp4">
+    </video>
+
+    <p>You just made my heart very happy 🥹</p>
+  </div>
+</div>
+
+<script>
+  const zone = document.getElementById("zone");
+  const no = document.getElementById("no");
+  const yes = document.getElementById("yes");
+  const result = document.getElementById("result");
+
+  function moveNo() {
+    const z = zone.getBoundingClientRect();
+    const b = no.getBoundingClientRect();
+
+    no.style.left = Math.random() * (z.width - b.width) + "px";
+    no.style.top = Math.random() * (z.height - b.height) + "px";
+    no.style.transform = "none";
+  }
+
+  zone.addEventListener("mousemove", e => {
+    const b = no.getBoundingClientRect();
+    const d = Math.hypot(
+      (b.left + b.width / 2) - e.clientX,
+      (b.top + b.height / 2) - e.clientY
+    );
+    if (d < 120) moveNo();
+  });
+
+  no.addEventListener("click", e => e.preventDefault());
+
+  yes.addEventListener("click", () => {
+    result.style.display = "block";
+    hearts();
+  });
+
+  function hearts() {
+    setInterval(() => {
+      const h = document.createElement("div");
+      h.className = "heart";
+      h.textContent = ["💗","💖","💘","💕","🌸"][Math.floor(Math.random()*5)];
+      h.style.left = Math.random() * 100 + "vw";
+      h.style.fontSize = 18 + Math.random() * 26 + "px";
+      h.style.animationDuration = 3 + Math.random() * 3 + "s";
+      document.body.appendChild(h);
+      setTimeout(() => h.remove(), 6000);
+    }, 120);
+  }
+</script>
+
+</body>
+</html>
